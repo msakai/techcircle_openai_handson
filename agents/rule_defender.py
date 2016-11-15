@@ -13,6 +13,16 @@ class RuleDefender():
         self._plan = []
     
     def act(self, observation):
+        player, enemy, ball = self.observation_to_state(observation)
+        if player == [] or ball == []:
+            return self.action_stop
+        elif ball[0] > player[0]:
+            return self.action_down
+        elif ball[0] < player[0]:
+            return self.action_up
+        else:
+            return self.action_stop
+        
         if len(self._plan) == 0:
             self._plan += [self.action_up] * self._interval  # up
             self._plan += [self.action_down] * (self._interval * 2)  # back to center & down
